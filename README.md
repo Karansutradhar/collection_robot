@@ -15,3 +15,19 @@ Mahmoud Dahmani (Design Keeper)
 ## License
 
 Standard MIT License Clause
+
+## Steps to run the program
+```
+git clone --recursive https://github.com/dahhmani/Collection-Robot.git
+cd <path to repository>
+git branch -a
+git checkout Phase-1
+mkdir build
+cd build
+cmake ..
+make
+Run tests: ./test/cpp-test
+Run program: ./app/shell-app
+
+```
+

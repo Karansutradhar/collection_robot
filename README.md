@@ -7,6 +7,13 @@
 
 This project aims to solve a common problem in the sports industry, namely tidying up the sports court (that may be used for multiple sessions at the same day) and getting it back to its original state. Our objective is to automate the process of collecting all the used balls that will be scattered all over the court at the end of each practise session. We intend to implement a ball collector robot that operates inside an indoor sports court. The robot will navigate around the environment at various locations detecting objects. Then it will reach the object to pick and place the object at a specified location. We will use object detection, mapping, obstacle avoidance, and optimal path to increase the efficiency of object collection. This robot is used to search and collect objects from unknown locations and get back to the starting position.
 
+We intend on creating a robust set of test cases with:
+
+    cmake
+    gtest
+    rostest
+
+
 ## Authors
 
 Phase-I
@@ -25,6 +32,15 @@ Standard MIT License Clause
 
 ## Sprint Planning Notes
 [Sprint Planning Notes For Phase 1](https://docs.google.com/document/d/1q7eatA6GpOcHOXkSIqnTkPcHaBq6XO4dyp4ps58LC04/edit?usp=sharing)
+
+## Project Dependencies
+
+Operating System: Ubuntu 18.04
+Programming Language: C++11
+Build Framework: CMake / Make
+Continuous Integration: Travis, Coveralls
+Documentation: Doxygen
+Dependencies: OpenCV library (Apache 2 License), ROS Melodic (BSD License): Catkin_pkgs, TurtleBot3_pkgs,gmapping slam packages, roscpp, rospy, std_msgs, tf, geomerty_msgs, rostest, rosbag, sensor_msgs,move_base_msgs, moveIt_pkgs, rviz and Gazebo (Apache 2 License)
 
 ## Steps to run the program
 ```

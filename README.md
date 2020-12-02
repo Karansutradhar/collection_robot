@@ -19,12 +19,17 @@ Mahmoud Dahmani (Design Keeper)
 
 Standard MIT License Clause
 
+## Agile Iterative Process
+
+[Agile Iterative Process Google Spreadsheet](https://docs.google.com/spreadsheets/d/1vfRqBHIk1xVdc3z9uviF9HBWrTOSSFLzZFpkkpyqecQ/edit?usp=sharing)
+
+## Sprint Planning Notes
+[Sprint Planning Notes For Phase 1](https://docs.google.com/document/d/1q7eatA6GpOcHOXkSIqnTkPcHaBq6XO4dyp4ps58LC04/edit?usp=sharing)
+
 ## Steps to run the program
 ```
 git clone --recursive https://github.com/dahhmani/Collection-Robot.git
 cd <path to repository>
-git branch -a
-git checkout Phase-1
 mkdir build
 cd build
 cmake ..

@@ -1,8 +1,15 @@
 #include <iostream>
-#include <lib.hpp>
+#include "navigation.hpp"
+#include "detection.hpp"
+#include "collection.hpp"
+#include "coloredobjects.hpp"
 
 int main()
 {
-    dummy();
+    Navigation navigationObj;
+    Detection detectionObj;
+    Collection collectionObj;
+    ColoredObjects coloredObjectsObj;
+    std::cout << "stub implementation" << std::endl;
     return 0;
 }

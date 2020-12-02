@@ -4,6 +4,10 @@ add_executable(
     cpp-test
     main.cpp
     test.cpp
+    ../app/navigation.cpp
+    ../app/detection.cpp
+    ../app/collection.cpp
+    ../app/coloredobjects.cpp
 )
 
 target_include_directories(cpp-test PUBLIC ../vendor/googletest/googletest/include 

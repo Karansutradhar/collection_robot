@@ -92,6 +92,7 @@
    */
 
   double Collection::collect() {
+    // stub implementation
 	  return 0;
   }
 

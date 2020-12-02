@@ -82,6 +82,7 @@
    */
 
 	double ColoredObjects::adding() {
+    // stub implementation
 		return 0;
 	}
 
@@ -92,6 +93,7 @@
    */
 
 	double ColoredObjects::removing() {
+    // stub implementation
 		return 0;
 	}
 

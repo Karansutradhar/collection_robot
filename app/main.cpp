@@ -47,6 +47,7 @@
 
 int main()
 {
+    // stub implementation
     Navigation navigationObj;
     Detection detectionObj;
     Collection collectionObj;

@@ -62,6 +62,7 @@
    */
 
 	double Navigation::explore() {
+    // stub implementation
 		return 0;
 	}
 
@@ -72,6 +73,7 @@
    */
 
 	double Navigation::goToColor() {
+    // stub implementation
 		return 0;
 	}
 

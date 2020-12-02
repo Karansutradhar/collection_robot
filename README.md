@@ -1,4 +1,7 @@
 # Indoor Sports Court Ball Collection Robot
+[![Build Status](https://travis-ci.org/dahhmani/Collection-Robot.svg?branch=master)](https://travis-ci.org/dahhmani/Collection-Robot)
+[![Coverage Status](https://coveralls.io/repos/github/dahhmani/Collection-Robot/badge.svg?branch=master)](https://coveralls.io/github/dahhmani/Collection-Robot?branch=master)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview and Description
 

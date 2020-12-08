@@ -1,6 +1,6 @@
 # Indoor Sports Court Ball Collection Robot
-[![Build Status](https://travis-ci.org/dahhmani/Collection-Robot.svg?branch=master)](https://travis-ci.org/dahhmani/Collection-Robot)
-[![Coverage Status](https://coveralls.io/repos/github/dahhmani/Collection-Robot/badge.svg?branch=master)](https://coveralls.io/github/dahhmani/Collection-Robot?branch=master)
+[![Build Status](https://travis-ci.org/dahhmani/collection_robot.svg?branch=master)](https://travis-ci.org/dahhmani/collection_robot)
+[![Coverage Status](https://coveralls.io/repos/github/dahhmani/collection_robot/badge.svg?branch=master)](https://coveralls.io/github/dahhmani/collection_robot?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ## Overview and Description
@@ -22,6 +22,12 @@ Ajinkya Parwekar (Driver)
 Karan Sutradhar (Navigator)
 Mahmoud Dahmani (Design Keeper)
 
+Phase-II
+
+Karan Sutradhar (Driver)
+Mahmoud Dahmani (Navigator)
+Ajinkya Parwekar (Design Keeper)
+
 ## License
 
 Standard MIT License Clause
@@ -33,18 +39,60 @@ Standard MIT License Clause
 ## Sprint Planning Notes
 [Sprint Planning Notes For Phase 1](https://docs.google.com/document/d/1q7eatA6GpOcHOXkSIqnTkPcHaBq6XO4dyp4ps58LC04/edit?usp=sharing)
 
+[Sprint Planning Notes For Phase 2](https://docs.google.com/document/d/1Y0JmpGLg45UZfyCOKwgZgbEW_Spy7mX2NEYs3VM1IGU/edit?usp=sharing)
+
 ## Project Dependencies
 
-Operating System: Ubuntu 18.04
-Programming Language: C++11
-Build Framework: CMake / Make
-Continuous Integration: Travis, Coveralls
-Documentation: Doxygen
-Dependencies: OpenCV library (Apache 2 License), ROS Melodic (BSD License): Catkin_pkgs, TurtleBot3_pkgs,gmapping slam packages, roscpp, rospy, std_msgs, tf, geomerty_msgs, rostest, rosbag, sensor_msgs,move_base_msgs, moveIt_pkgs, rviz and Gazebo (Apache 2 License)
+- Creation and implemenation of this ROS package was on ROS Melodic Ubuntu 18.04 (Linux) and Gazebo 9.0.0 version.
+- Catkin is used for building this package. CMake (build system)
+- OpenCV >= 4.4
+- Follow the C++ 11 standard style of coding.
+- ROS Melodic
+- A standard turtlebot3 pkg needs to be installed in order to run this project.
+
+
+### Install ROS Melodic
+
+In order to Install ROS Melodic follow the following ROS.org [link](http://wiki.ros.org/melodic/Installation/Ubuntu)
+
+### Installation link for turtlebot3 package:
+
+The instructions to install the standard turtlebot3 ROS package can be found [here](https://automaticaddison.com/how-to-launch-the-turtlebot3-simulation-with-ros/).
+
+### Standard dependencies
+
+  - roscpp
+
+  - rospy 
+
+  - move_base_msgs
+
+  - gmapping slam packages
+
+  - std_msgs
+
+  - sensor_msgs
+
+  - geometry_msgs
+
+  - rostest
+
+  - rosbag
+
+  - tf
+
+## How to run tests
+
+```
+cd ~/catkin_ws/
+source devel/setup.bash
+catkin_make run_tests collection_robot
+
+```
 
 ## Steps to run the program
 ```
-git clone --recursive https://github.com/dahhmani/Collection-Robot.git
+git clone --recursive https://github.com/dahhmani/collection_robot.git
 cd <path to repository>
 mkdir build
 cd build
@@ -54,4 +102,37 @@ Run tests: ./test/cpp-test
 Run program: ./app/shell-app
 
 ```
+## Cpplint check
+```
+cd  <path to repository>
+cpplint $( find . -name \*.hpp -or -name \*.cpp | grep -vE -e "^./build/" -e "^./vendor/" -e "^./docs/" -e "^./results" )
+
+```
+
+Cppcheck check
+```
+cd <path to repository>
+cppcheck --enable=all --std=c++11 -I include/ --suppress=missingIncludeSystem $( find . -name *.cpp | grep -vE -e "^./build/" -e "^./vendor/" )
+
+```
+
+## Doxygen File generation
+```
+sudo apt-get install doxygen
+doxygen -g
+Open Doxygen file and source file in "INPUT" prameter and add the include and app folder
+Add "*.hpp *.cpp" in the "FILE_PATTERNS" parameter in the doxygen file
+Run "doxygen ./Doxyfile" in te terminal
+Open html folder
+open index.html
+```
+
+## Building for code coverage
+```
+sudo apt-get install lcov
+cmake -D COVERAGE=ON -D CMAKE_BUILD_TYPE=Debug ../
+make
+make code_coverage
+```
+This generates a index.html page in the build/coverage sub-directory that can be viewed locally in a web browser.
 

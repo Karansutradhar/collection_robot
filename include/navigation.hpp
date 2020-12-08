@@ -1,8 +1,8 @@
 /**
  * @file navigation.hpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
  * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot project.
  * It contains Collection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
@@ -36,10 +36,43 @@
 #pragma once
 
 #include <iostream>
+#include <ros/ros.h>
+#include <sensor_msgs/LaserScan.h>
+#include "geometry_msgs/Twist.h"
+#include "detection.hpp"
 
 class Navigation {
+ private:
+  //Communication with the ROS system
+  ros::NodeHandle nh;
+
+  //Subscribe to laser scan topic
+  ros::Subscriber sensorLaser;
+
+  //Inilalize variable to store if object is detected
+  ros::Publisher velocity;
+
+   //msg variable that handles robot speeds
+  geometry_msgs::Twist velocitymsg;
+
+  // Defining minimun distance from the wall to avoid collision
+  float thresholdDist;
+
+  // Defining linear velocity in x direction
+  float xVelLin;
+
+  // Defining angular velocity in z direction
+  float zVelAng;
+
+  // Defining variables to store previous velocities
+  float prevVelLin, prevVelAng;
+
+  // Defining publishing rate
+  const int pubRate = 200;
+ 
  public:
-	double detector;
+   //obstacle variable that defines presence of obstacles
+    bool obstacles;
 
   /**
    * @brief Base Constructor for the Navigation class.
@@ -47,37 +80,94 @@ class Navigation {
    * @return None.
    */
 
-	Navigation();
+  Navigation();
 
   /**
-   * @brief Constructor for the Navigation class with one argument
-   * @param double correctnessLevelIn.
+   * @brief Base Constructor for the Navigation class.
+   * @param Linear velocity
+   * @param Angular velocity
    * @return None.
    */
 
-	Navigation(double detector);
+  Navigation(float velLin, float velAng);
 
   /**
-   * @brief Function to explore the world environment for the robot.
+   * @brief   Make the Robot move ahead
+   * @param   linear velocity in x direction
+   * @return  linear velocity of the robot
+   */
+
+  float moveAhead(float velLin);
+
+  /**
+   * @brief   change the direction
+   * @param   angular velocity in z direction
+   * @return  angular velocity for the robot
+   */
+
+  float turnDirection(float velAng);
+
+  /**
+   * @brief   Controling the motion of the robot
+   * @param   none
+   * @return  none
+   */
+
+  void robotMovement();
+
+  /**
+   * @brief   reset velocity of the robot
+   * @param   none
+   * @return  returns true, otherwise false
+   */
+
+  bool resetRobotVelocity();
+
+  /**
+  * @brief  checks if there is any modification in velocity
+  * @param  none
+  * @return true if changed, otherwise false
+  */
+
+  bool checkChangeInVelocity();
+  
+  /**
+   * @brief sensor callback to subscribe the laser sensor callback topic
+   * @param sensor_msgs::ScanLaser
+   * @return None.
+   */
+
+  void laserSensorCallback(const sensor_msgs::LaserScan::ConstPtr& sensorData);
+
+  /**
+   * @brief Function to explore the world environment and set speed for the robot without collision
+   * @param None.
+   * @return geometry_msgs , to move robot without collision
+   */
+
+  geometry_msgs::Twist explore();
+
+  /**
+  * @brief  function to avoid walls
+  * @param  Threshold distance from the walls
+  * @return none
+  */
+
+  void avoidObstacle(float thresholdDist);
+
+  /**
+   * @brief   Checks the walls are present within threshold distance
+   * @param   none
+   * @return  TRue if found, otherwise false
+   */
+
+  bool checkWalls();
+  
+  /**
+   * @brief Destructor for the Navigation class.
    * @param None.
    * @return None.
    */
 
-	double explore();
-
-  /**
-   * @brief Function to travel to the detected color box.
-   * @param None.
-   * @return None.
-   */
-
-	double goToColor();
-
-  /**
-   * @brief Destructor for the ColoredObjects class.
-   * @param None.
-   * @return None.
-   */
-
-	~Navigation();
+  ~Navigation();
 };

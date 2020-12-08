@@ -1,9 +1,9 @@
 /**
- * @file collection.hpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
- * @brief The collection.hpp file for Indoor Sports Court Ball Collection Robot project.
+ * @file navigation.hpp
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
+ * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot project.
  * It contains Collection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
@@ -36,67 +36,53 @@
 #pragma once
 
 #include <iostream>
+#include <ros/ros.h>
+#include <sensor_msgs/LaserScan.h>
+#include "geometry_msgs/Twist.h"
 #include "navigation.hpp"
+#include "detection.hpp"
 
-class Collection : public Navigation {
-private:
-	double range;
 
- public:
+Navigation::Navigation(){
+	xVelLin = 3.0;
+	zVelAng = 0.75;
+}
 
- /**
-	* @brief Base Constructor for the Collection class.
-	* @param None.
-	* @return None.
-	*/
+Navigation::Navigation(float velLin, float velAng){
+	xVelLin = velLin;
+	zVelAng = velAng;
+}
 
-	Collection();
+float Navigation::moveAhead(float velLin){
+	return 3.0;
+}
 
-  /**
-   * @brief Constructor for the Collection class with one argument
-   * @param double rangeIn.
-   * @return None.
-   */
+float Navigation::turnDirection(float velAng){
+	return 0.75;
+}
 
-	Collection(double range);
+void Navigation::robotMovement(){
+}
 
-  /**
-   * @brief Function to set the value of range attribute.
-   * @param double rangeIn.
-   * @return None.
-   */
+bool Navigation::resetRobotVelocity(){
+	return true;
+}
 
-	void setRange(double rangeIn);
+bool Navigation::checkChangeInVelocity(){
+	return true;
+}
 
-  /**
-   * @brief Function to get the value of range attribute.
-   * @param None.
-   * @return double range.
-   */
+void Navigation::laserSensorCallback(const sensor_msgs::LaserScan::ConstPtr& sensorData){}
 
-	double getRange();
+geometry_msgs::Twist Navigation::explore(){
+}
 
-  /**
-   * @brief Function to check the collection ability of an object.
-   * @param None.
-   * @return collection ability as boolean true or false.
-   */
+void Navigation::avoidObstacle(float thresholdDist){
+}
 
-	bool collectionAbility();
+bool Navigation::checkWalls(){
+	return false;
+}
+  
+Navigation::~Navigation(){}
 
-  /**
-   * @brief Function to collect an object.
-   * @param None.
-   * @return None.
-   */
-
-	double collect();
-
-  /**
-   * @brief Destructor for the Collection class.
-   * @param None.
-   * @return None.
-   */
-
-	~Collection();
-};

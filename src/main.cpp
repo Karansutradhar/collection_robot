@@ -1,10 +1,10 @@
 /**
- * @file coloredobjects.hpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
- * @brief The coloredobjects.hpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains ColoredObjects class methods definitions.
+ * @file main.cpp
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
+ * @brief The main.cpp file for Indoor Sports Court Ball Collection Robot project.
+ * It contains code to navigate and operate the robot in the simulated world environment.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
@@ -33,70 +33,22 @@
  */
 
 
-#pragma once
-
 #include <iostream>
-#include "collection.hpp"
-
-class ColoredObjects : public Collection {
-private:
-	int objectColor;
-
-public:
+#include <ros/ros.h>
+#include "navigation.hpp"
+#include "detection.hpp"
 
   /**
-   * @brief Base Constructor for the ColoredObjects class.
+   * @brief main function for the project.
    * @param None.
    * @return None.
    */
 
-	ColoredObjects();
-
-  /**
-   * @brief Constructor for the ColoredObjects class with one argument
-   * @param double objectColorIn.
-   * @return None.
-   */
-
-	ColoredObjects(int objectColor);
-
-  /**
-   * @brief Function to set the value of objectColor attribute.
-   * @param int objectColorIn.
-   * @return None.
-   */
-
-	void setObjectColor(int objectColorIn);
-
-  /**
-   * @brief Function to get the value of objectColor attribute.
-   * @param None.
-   * @return double objectColor.
-   */
-
-	int getObjectColor();
-
-  /**
-   * @brief Function to add the objects to the objects list.
-   * @param None.
-   * @return None.
-   */
-
-	double adding();
-
-  /**
-   * @brief Function to remove the objects to the objects list.
-   * @param None.
-   * @return None.
-   */
-
-	double removing();
-
-  /**
-   * @brief Destructor for the ColoredObjects class.
-   * @param None.
-   * @return None.
-   */
-
-	~ColoredObjects();
-};
+int main()
+{
+    // stub implementation
+    Navigation navigationObj;
+    Detection detectionObj;
+    std::cout << "stub implementation" << std::endl;
+    return 0;
+}

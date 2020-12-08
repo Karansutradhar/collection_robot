@@ -1,8 +1,8 @@
 /**
  * @file test.cpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
  * @brief The test.cpp file for Indoor Sports Court Ball Collection Robot project.
  * It contains unit test cases for all the class moethods.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
@@ -34,103 +34,156 @@
 
 
 #include <gtest/gtest.h>
-#include "navigation.hpp"
-#include "detection.hpp"
-#include "collection.hpp"
-#include "coloredobjects.hpp"
+#include <ros/ros.h>
+#include "opencv2/opencv.hpp"
+#include <navigation.hpp>
+#include <detection.hpp>
 
 /**
- * @brief This test checks if the collectionAbility function works as expected
+ * @brief This test checks if the filterImage function works as expected
  * @param Test1 is the name of the group of tests
- * @param collectionAbilityFunctionTest is the specific name to check the collectionAbility function
+ * @param filterImageFunctionTest is the specific name to check the filterImage function
  */
-
-TEST(Test1, collectionAbilityFunctionTest) {
-  Collection collectionObj;
-  EXPECT_EQ(false, collectionObj.collectionAbility());
+TEST(Test1, filterImageFunctionTest) {
+    Detection detectionObj;
+    bool filterCheck = true;
+    // Checking if file is empty or not
+    if (!detectionObj.imgStorage.empty()) {
+        cv::Mat filerImg = detectionObj.filterImage(
+    		detectionObj.imgStorage);
+    	if(filerImg.size() == detectionObj.imgStorage.size()) {
+    	// smoothing will help the images not to have same size
+    		filterCheck = false;
+    	}
+    }
+    EXPECT_TRUE(filterCheck);
 }
 
 /**
- * @brief This test checks if the collect function works as expected
+ * @brief This test checks if the detectObjs function works as expected
  * @param Test1 is the name of the group of tests
- * @param collectFunctionTest is the specific name to check the collect function
+ * @param detectObjsFunctionTest is the specific name to check the detectObjs function
  */
 
-TEST(Test1, collectFunctionTest) {
-  Collection collectionObj;
-  EXPECT_EQ(0, collectionObj.collect());
+TEST(Test1, detectObjsFunctionTest) {
+    Detection detectionObj;
+    bool objDetected;
+    if (!detectionObj.imgStorage.empty()) {
+    	objDetected = detectionObj.detectObjs(
+    		detectionObj.filterImage(detectionObj.imgStorage));
+    }
+    //condition where object not detected
+    EXPECT_FALSE(objDetected);
 }
 
 /**
- * @brief This test checks if the adding function works as expected
+ * @brief This test checks if the setObjLimits function works as expected
  * @param Test1 is the name of the group of tests
- * @param addingFunctionTest is the specific name to check the adding function
+ * @param setObjLimitsFunctionTest is the specific name to check the setObjLimits function
  */
-
-TEST(Test1, addingFunctionTest) {
-  ColoredObjects coloredObjectsObj;
-  EXPECT_EQ(0, coloredObjectsObj.adding());
+TEST(Test1, setObjLimitsFunctionTest) {
+    Detection detectionObj;
+    // definig the limit of the object
+    cv::Rect limits = {0, 2, 4, 6};
+    detectionObj.setObjLimits(limits);
+    EXPECT_EQ(detectionObj.getObjLimits(), limits);
 }
 
 /**
- * @brief This test checks if the removing function works as expected
+ * @brief This test checks if the setIsObjDetected and getIsObjDetected function works as expected
  * @param Test1 is the name of the group of tests
- * @param removingFunctionTest is the specific name to check the removing function
+ * @param IsObjDetectedFunctionTest is the specific name to check the setIsObjDetected and getIsObjDetected function
  */
 
-TEST(Test1, removingFunctionTest) {
-  ColoredObjects coloredObjectsObj;
-  EXPECT_EQ(0, coloredObjectsObj.removing());
+TEST(Test1, IsObjDetectedFunctionTest) {
+    Detection detectionObj;
+    detectionObj.setIsObjDetected(true);
+    EXPECT_TRUE(detectionObj.getIsObjDetected());
 }
 
 /**
- * @brief This test checks if the explore function works as expected
+ * @brief This test checks if the setIsObjDetected and getIsObjDetected function works as expected
  * @param Test1 is the name of the group of tests
- * @param exploreFunctionTest is the specific name to check the explore function
+ * @param IsObjNotDetectedFunctionTest is the specific name to check the setIsObjDetected and getIsObjDetected function
  */
 
-TEST(Test1, exploreFunctionTest) {
-  Navigation navigationObj;
-  EXPECT_EQ(0, navigationObj.explore());
+TEST(Test1, IsObjNotDetectedFunctionTest) {
+    Detection detectionObj;
+    detectionObj.setIsObjDetected(false);
+    EXPECT_FALSE(detectionObj.getIsObjDetected());
 }
 
 /**
- * @brief This test checks if the goToColor function works as expected
+ * @brief This test checks if the moveAhead function works as expected
  * @param Test1 is the name of the group of tests
- * @param goToColorFunctionTest is the specific name to check the goToColor function
+ * @param moveAheadFunctionTest is the specific name to check the moveAhead function
  */
 
-TEST(Test1, goToColorFunctionTest) {
-  Navigation navigationObj;
-  EXPECT_EQ(0, navigationObj.goToColor());
+TEST(Test1, moveAheadFunctionTest) {
+    // Defining linear and angular velocities for the robot
+    float linVelocity = 3.0;
+    float angVelocity = 0.75;
+    Navigation navigationObj(linVelocity, angVelocity);
+    EXPECT_EQ(linVelocity, navigationObj.moveAhead(linVelocity));
 }
 
 /**
- * @brief This test checks getter functions in all the classes
- * @param Test2 is the name of the group of tests
- * @param paramGetTest is the specific name to check the getter functions
+ * @brief This test checks if the turnDirection function works as expected
+ * @param Test1 is the name of the group of tests
+ * @param turnDirectionFunctionTest is the specific name to check the turnDirection function
  */
 
-TEST(Test2, paramGetTest) {
-  Detection detectionObj;
-  Collection collectionObj;
-  ColoredObjects coloredObjectsObj;
-  EXPECT_EQ(0, collectionObj.getRange());
-  EXPECT_EQ(0, coloredObjectsObj.getObjectColor());
-  EXPECT_EQ(0, detectionObj.getCorrectnessLevel());
+TEST(Test1, turnDirectionFunctionTest) {
+    // Defining linear and angular velocities for the robot
+    float linVelocity = 3.0;
+    float angVelocity = 0.75;
+    Navigation navigationObj(linVelocity, angVelocity);
+    EXPECT_EQ(angVelocity, navigationObj.turnDirection(angVelocity));
 }
 
 /**
- * @brief This test checks setter functions in all the classes
- * @param Test2 is the name of the group of tests
- * @param paramSetTest is the specific name to check the setter functions
+ * @brief This test checks if the resetRobotVelocity function works as expected
+ * @param Test1 is the name of the group of tests
+ * @param resetRobotVelocityFunctionTest is the specific name to check the resetRobotVelocity function
  */
 
-TEST(Test2, paramSetTest) {
-  Detection detectionObj(1);
-  Collection collectionObj(2);
-  ColoredObjects coloredObjectsObj(3);
-  EXPECT_EQ(2, collectionObj.getRange());
-  EXPECT_EQ(3, coloredObjectsObj.getObjectColor());
-  EXPECT_EQ(1, detectionObj.getCorrectnessLevel());
+TEST(Test1, resetRobotVelocityFunctionTest) {
+    Navigation navigationObj;
+    EXPECT_TRUE(navigationObj.resetRobotVelocity());
+}
+
+/**
+ * @brief This test checks if the checkChangeInVelocity function works as expected
+ * @param Test1 is the name of the group of tests
+ * @param checkChangeInVelocityFunctionTest is the specific name to check the checkChangeInVelocity function
+ */
+
+TEST(Test1, checkChangeInVelocityFunctionTest) {
+    Navigation navigationObj;
+    EXPECT_TRUE(navigationObj.checkChangeInVelocity());
+}
+
+/**
+ * @brief This test checks if the avoidObstacle function works as expected
+ * @param Test1 is the name of the group of tests
+ * @param avoidObstacleFunctionTest is the specific name to check the avoidObstacle function
+ */
+
+TEST(Test1, avoidObstacleFunctionTest) {
+    Navigation navigationObj;
+    EXPECT_FALSE(navigationObj.checkWalls());
+}
+
+/**
+ * @brief This test checks if the checkWalls function works as expected
+ * @param Test1 is the name of the group of tests
+ * @param checkWallsFunctionTest is the specific name to check the checkWalls function
+ */
+
+TEST(Test1, checkWallsFunctionTest) {
+    // Define Threshold distance from the walls
+    float tDistance = 0.20;
+    Navigation navigationObj;
+    navigationObj.avoidObstacle(tDistance);
+    EXPECT_FALSE(navigationObj.checkWalls());
 }

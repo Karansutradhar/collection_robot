@@ -1,8 +1,8 @@
 /**
  * @file main.cpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
  * @brief The main.cpp file of test program for Indoor Sports Court Ball Collection Robot project.
  * It contains the code to run all the unit test cases.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
@@ -34,6 +34,7 @@
 
 
 #include <gtest/gtest.h>
+#include <ros/ros.h>
 
   /**
    * @brief main function for the test program.
@@ -41,7 +42,9 @@
    * @return Command to run all the test cases.
    */
 
-int main(int argc, char** argv) {
-  ::testing::InitGoogleTest(&argc, argv);
-  return RUN_ALL_TESTS();
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+    ros::init(argc, argv, "collection_robot_test");
+    ros::NodeHandle nh;
+    return RUN_ALL_TESTS();
 }

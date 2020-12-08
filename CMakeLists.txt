@@ -1,29 +1,59 @@
 cmake_minimum_required(VERSION 3.2.1)
-project (scratch)
+project(collection_robot)
 
-# Add project cmake modules to path.
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
+## Compile as C++11, supported in ROS Melodic and newer
+add_compile_options(-std=c++11)
 
-# We probably don't want this to run on every build.
-option(COVERAGE "Generate Coverage Data" OFF)
+find_package(catkin REQUIRED COMPONENTS
+  catkin REQUIRED COMPONENTS
+  roscpp
+  rospy
+  sensor_msgs
+  std_msgs
+  geometry_msgs
+  move_base_msgs
+  cv_bridge
+  image_transport
+)
 
-if (COVERAGE)
-    include(CodeCoverage)
-    set(LCOV_REMOVE_EXTRA "'vendor/*'")
-    setup_target_for_coverage(code_coverage test/cpp-test coverage)
-    set(COVERAGE_SRCS app/main.cpp app/navigation.cpp app/detection.cpp app/collection.cpp app/coloredobjects.cpp include/navigation.hpp include/detection.hpp include/collection.hpp include/coloredobjects.hpp)
+## Declare a catkin package
+catkin_package()
 
-    SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-    SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
-    SET(CMAKE_EXE_LINKER_FLAGS "-fprofile-arcs -ftest-coverage")
-else()
-    set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wpedantic -g")
+## Build target library
+include_directories(
+  include 
+  ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
+)
+
+add_executable(collector src/main.cpp src/detection.cpp src/navigation.cpp)
+
+## Add target link libraries
+target_link_libraries(collector ${catkin_LIBRARIES} ${OpenCV_LIBS})
+
+## Enable catkin test and add files for the same
+if(CATKIN_ENABLE_TESTING)
+  set(CMAKE_BUILD_TYPE Debug)
+  find_package(rostest REQUIRED)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -O0 --coverage")
+
+  add_rostest_gtest(
+   collection_robot_test
+   test/test.launch
+   test/main.cpp
+   test/test.cpp
+   src/detection.cpp
+   src/navigation.cpp
+   )
+
+  target_link_libraries(
+   collection_robot_test 
+   ${catkin_LIBRARIES}
+   ${OpenCV_LIBS})
+
+  add_dependencies(
+  	collection_robot_test
+    collector
+    ${catkin_EXPORTED_TARGETS})
 endif()
 
-include(CMakeToolsHelpers OPTIONAL)
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 14)
-
-add_subdirectory(app)
-add_subdirectory(test)
-add_subdirectory(vendor/googletest/googletest)

@@ -1,10 +1,10 @@
 /**
  * @file detection.cpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
  * @brief The detection.cpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains Detection class methods implementations.
+ * It contains Detection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
@@ -33,53 +33,30 @@
  */
 
 
+#include <iostream>
+#include <vector>
+#include <string>
+#include "ros/ros.h"
+#include "cv_bridge/cv_bridge.h"
+#include "opencv2/opencv.hpp"
+#include "opencv2/highgui/highgui.hpp"
 #include "detection.hpp"
 
-  /**
-   * @brief Base Constructor for the Detection class.
-   * @param None.
-   * @return None.
-   */
+Detection::Detection() {
+    isObjDected =  true;
+}
 
-	Detection::Detection() {
-		correctnessLevel = 0;
-	}
+void Detection::imgConversion(const sensor_msgs::Image::ConstPtr& imgData) {
+    std::cout << "testing" << std::endl;
+}
 
-  /**
-   * @brief Constructor for the Detection class with one argument
-   * @param double correctnessLevelIn.
-   * @return None.
-   */
+bool Detection::detectObjs(cv::Mat objects) {
+    return true;
+}
 
-	Detection::Detection(double correctnessLevelIn) {
-		correctnessLevel = correctnessLevelIn;
-	}
+cv::Mat Detection::filterImage(cv::Mat imgFiltered) {
+    std::cout << "testing" << std::endl;
+}
 
-  /**
-   * @brief Function to set the value of objectColor attribute.
-   * @param int correctnessLevelIn.
-   * @return None.
-   */
+Detection::~Detection() {}
 
-	void Detection::setCorrectnessLevel(double correctnesslevelIn) {
-		correctnessLevel = correctnesslevelIn;
-	}
-
-  /**
-   * @brief Function to set the value of objectColor attribute.
-   * @param int correctnessLevelIn.
-   * @return None.
-   */
-
-	double Detection::getCorrectnessLevel() {
-		return correctnessLevel;
-	}
-
-  /**
-   * @brief Function to set the value of objectColor attribute.
-   * @param int correctnessLevelIn.
-   * @return None.
-   */
-
-	Detection::~Detection() {
-	}

@@ -1,8 +1,8 @@
 /**
  * @file main.cpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
  * @brief The main.cpp file for Indoor Sports Court Ball Collection Robot project.
  * It contains code to navigate and operate the robot in the simulated world environment.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
@@ -34,10 +34,9 @@
 
 
 #include <iostream>
+#include "ros/ros.h"
 #include "navigation.hpp"
 #include "detection.hpp"
-#include "collection.hpp"
-#include "coloredobjects.hpp"
 
   /**
    * @brief main function for the project.
@@ -45,13 +44,11 @@
    * @return None.
    */
 
-int main()
-{
+int main() {
     // stub implementation
     Navigation navigationObj;
     Detection detectionObj;
-    Collection collectionObj;
-    ColoredObjects coloredObjectsObj;
     std::cout << "stub implementation" << std::endl;
     return 0;
 }
+

@@ -1,9 +1,9 @@
 /**
- * @file collection.hpp
- * @author Ajinkya Parwekar: Driver
- * @author Karan Sutradhar: Navigator
- * @author Mahmoud Dahmani: Design Keeper
- * @brief The collection.hpp file for Indoor Sports Court Ball Collection Robot project.
+ * @file navigation.hpp
+ * @author Ajinkya Parwekar
+ * @author Karan Sutradhar
+ * @author Mahmoud Dahmani
+ * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot project.
  * It contains Collection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
@@ -33,70 +33,66 @@
  */
 
 
-#pragma once
-
 #include <iostream>
+#include "ros/ros.h"
+#include "sensor_msgs/LaserScan.h"
+#include "geometry_msgs/Twist.h"
 #include "navigation.hpp"
+#include "detection.hpp"
 
-class Collection : public Navigation {
-private:
-	double range;
+Navigation::Navigation() {
+    thresholdDist = 0.0;
+    prevVelLin = 0.0;
+    prevVelAng = 0.0;
+    obstacles = true;
+    xVelLin = 0.0;
+    zVelAng = 0.0;
+}
 
- public:
+Navigation::Navigation(float velLin, float velAng) {
+    xVelLin = velLin;
+    zVelAng = velAng;
+    thresholdDist = 0.0;
+    prevVelLin = 0.0;
+    prevVelAng = 0.0;
+    obstacles = true;
+}
 
- /**
-	* @brief Base Constructor for the Collection class.
-	* @param None.
-	* @return None.
-	*/
+float Navigation::moveAhead(float velLin) {
+    return 3.0;
+}
 
-	Collection();
+float Navigation::turnDirection(float velAng) {
+    return 0.75;
+}
 
-  /**
-   * @brief Constructor for the Collection class with one argument
-   * @param double rangeIn.
-   * @return None.
-   */
+void Navigation::robotMovement() {
+    std::cout << "testing" << std::endl;
+}
 
-	Collection(double range);
+bool Navigation::resetRobotVelocity() {
+    return true;
+}
 
-  /**
-   * @brief Function to set the value of range attribute.
-   * @param double rangeIn.
-   * @return None.
-   */
+bool Navigation::checkChangeInVelocity() {
+    return true;
+}
 
-	void setRange(double rangeIn);
+void Navigation::laserSensorCallback(const
+    sensor_msgs::LaserScan::ConstPtr& sensorData) {
+    std::cout << "testing" << std::endl;
+}
 
-  /**
-   * @brief Function to get the value of range attribute.
-   * @param None.
-   * @return double range.
-   */
+geometry_msgs::Twist Navigation::explore() {
+    std::cout << "testing" << std::endl;
+}
 
-	double getRange();
+void Navigation::avoidObstacle(float thresholdDist) {
+    std::cout << "testing" << std::endl;
+}
 
-  /**
-   * @brief Function to check the collection ability of an object.
-   * @param None.
-   * @return collection ability as boolean true or false.
-   */
+bool Navigation::checkWalls() {
+    return false;
+}
 
-	bool collectionAbility();
-
-  /**
-   * @brief Function to collect an object.
-   * @param None.
-   * @return None.
-   */
-
-	double collect();
-
-  /**
-   * @brief Destructor for the Collection class.
-   * @param None.
-   * @return None.
-   */
-
-	~Collection();
-};
+Navigation::~Navigation() {}

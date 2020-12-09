@@ -34,7 +34,7 @@
 
 
 #include <iostream>
-#include <ros/ros.h>
+#include "ros/ros.h"
 #include "navigation.hpp"
 #include "detection.hpp"
 
@@ -44,11 +44,11 @@
    * @return None.
    */
 
-int main()
-{
+int main() {
     // stub implementation
     Navigation navigationObj;
     Detection detectionObj;
     std::cout << "stub implementation" << std::endl;
     return 0;
 }
+

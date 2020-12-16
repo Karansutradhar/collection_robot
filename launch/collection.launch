@@ -22,4 +22,13 @@
 
    <!--Launch collect objects node-->
   <node pkg="collection_robot" type="scanner" name="scanner"/>
+
+   <!-- Launch rosbag node -->
+   <node 
+       pkg="rosbag"
+       name="record"
+       type="record"
+       args="-a -O $(find collection_robot)/results/collection.bag -x /camera/(.*)" 
+       if="$(arg record)"
+   />
 </launch>

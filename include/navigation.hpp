@@ -37,26 +37,20 @@
 
 #include <iostream>
 #include "ros/ros.h"
-#include "sensor_msgs/LaserScan.h"
 #include "geometry_msgs/Twist.h"
 #include "detection.hpp"
+#include "avoidance.hpp"
 
 class Navigation {
  private:
   // Communication with the ROS system
   ros::NodeHandle nh;
 
-  // Subscribe to laser scan topic
-  ros::Subscriber sensorLaser;
-
   // Inilalize variable to store if object is detected
   ros::Publisher velocity;
 
   // msg variable that handles robot speeds
-  geometry_msgs::Twist velocitymsg;
-
-  // Defining minimun distance from the wall to avoid collision
-  float thresholdDist;
+  geometry_msgs::Twist move;
 
   // Defining linear velocity in x direction
   float xVelLin;
@@ -68,11 +62,9 @@ class Navigation {
   float prevVelLin, prevVelAng;
 
   // Defining publishing rate
-  const int pubRate = 200;
+  const int pubRate = 450;
 
  public:
-  // obstacle variable that defines presence of obstacles
-  bool obstacles;
   /**
    * @brief Base Constructor for the Navigation class.
    * @param None.
@@ -103,7 +95,7 @@ class Navigation {
    * @param   none
    * @return  none
    */
-  void robotMovement();
+  void robotMovement(Avoidance& avoidanceObj);
   /**
    * @brief   reset velocity of the robot
    * @param   none
@@ -116,30 +108,6 @@ class Navigation {
   * @return true if changed, otherwise false
   */
   bool checkChangeInVelocity();
-  /**
-   * @brief sensor callback to subscribe the laser sensor callback topic
-   * @param sensor_msgs::ScanLaser
-   * @return None.
-   */
-  void laserSensorCallback(const sensor_msgs::LaserScan::ConstPtr& sensorData);
-  /**
-   * @brief Function to explore the world environment and set speed for the robot without collision
-   * @param None.
-   * @return geometry_msgs , to move robot without collision
-   */
-  geometry_msgs::Twist explore();
-  /**
-  * @brief  function to avoid walls
-  * @param  Threshold distance from the walls
-  * @return none
-  */
-  void avoidObstacle(float thresholdDist);
-  /**
-   * @brief   Checks the walls are present within threshold distance
-   * @param   none
-   * @return  TRue if found, otherwise false
-   */
-  bool checkWalls();
   /**
    * @brief Destructor for the Navigation class.
    * @param None.

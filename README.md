@@ -7,6 +7,33 @@
 
 This project aims to solve a common problem in the sports industry, namely tidying up the sports court (that may be used for multiple sessions at the same day) and getting it back to its original state. Our objective is to automate the process of collecting all the used balls that will be scattered all over the court at the end of each practise session. We intend to implement a ball collector robot that operates inside an indoor sports court. The robot will navigate around the environment at various locations detecting objects. Then it will reach the object to pick and place the object at a specified location. We will use object detection, mapping, obstacle avoidance, and optimal path to increase the efficiency of object collection. This robot is used to search and collect objects from unknown locations and get back to the starting position.
 
+## Presentation
+[Class Presentation](https://youtu.be/rzorpK4S9Fg)
+
+## Demo link
+[Demo]()
+
+### Assumptions
+The number of balls in the environment is known and given by the user, but their locations are unknown. The ball collection task will be abstracted away by simply making the ball disappear from the environment when the robot is within a preset distance away from it. There is no time limit for the navigation and the simulation will only stop when all the balls are collected. The environment is assumed to be a small area of 20 x 20 feet.
+
+### Development Process
+Agile iterative process is followed in this project. The roles are divided into driver (DR), navigator (NA) and design keeper (DK), which are swapped throughout the tasks. We will iterate over the following 3 sprint backlogs (each spans a week) to complete the project.
+Test-driven development is applied so that the quality of the implemented software system is ensured. Essentially, our system will be the product of the following cycle. First unit tests are written under the Google Test framework. The code is written and refactored until all the tests for a given module pass. The same was carried out for the next modules implementation until the whole system is built. Further quality control was reinforced by utilizing CppCheck as the code analysis tool, Valgrind and GDB as the debugging tools and CppLint to ascertain compliance with Google style sheet. 
+
+### Methodology
+We divided our pipeline into two major stages, namely a detection stage via a mounted camera and a navigation stage (which comprises a SLAM and a path planning modules). We will implement color filtering as our detection algorithm, and we will utilize off-the-shelf implementations for SLAM and path planning.
+The following is the planned approach.
+
+### Potential Risk & Mitigation
+Gmapping doesn’t work on large open spaces, so we intend to make the environment small.
+
+### Known Issues and Bugs
+
+The color and number of balls are fixed and in red color.
+The ball collection is not shown in this project. It can be demonstrated by making the balls to disappear using ros service.
+The Robot we use have a limited depth and vision.
+
+
 We intend on creating a robust set of test cases with:
 
     cmake
@@ -16,17 +43,11 @@ We intend on creating a robust set of test cases with:
 
 ## Authors
 
-Phase-I
+[Karan Sutradhar](https://github.com/Karansutradhar) - Pursuing Masters' in Robotics
 
-Ajinkya Parwekar (Driver)
-Karan Sutradhar (Navigator)
-Mahmoud Dahmani (Design Keeper)
+[Ajinkya Parwekar](https://github.com/ajinkyap991) - Pursuing Masters' in Robotics
 
-Phase-II
-
-Karan Sutradhar (Driver)
-Mahmoud Dahmani (Navigator)
-Ajinkya Parwekar (Design Keeper)
+[Mahmoud Dahmani](https://github.com/dahhmani) - Pursuing Masters' in Robotics
 
 ## License
 
@@ -41,15 +62,20 @@ Standard MIT License Clause
 
 [Sprint Planning Notes For Phase 2](https://docs.google.com/document/d/1Y0JmpGLg45UZfyCOKwgZgbEW_Spy7mX2NEYs3VM1IGU/edit?usp=sharing)
 
+[Sprint Planning Notes For Phase 3](https://docs.google.com/document/d/1wdRt2_vtzhR7wF74SPTJi531jGys98WzzCVS4sGt3Bo/edit?usp=sharing)
+
 ## Project Dependencies
 
-- Creation and implemenation of this ROS package was on ROS Melodic Ubuntu 18.04 (Linux) and Gazebo 9.0.0 version.
-- Catkin is used for building this package. CMake (build system)
-- OpenCV >= 4.4
-- Follow the C++ 11 standard style of coding.
-- ROS Melodic
+- Creation and implemenation of this ROS package was on ROS Melodic Ubuntu 18.04 (Linux)
+- Simulated Environment- Gazebo 9.0.0 version.
+- Build System - CMake
+- Open Source Libraries - OpenCV >= 4.4 (Apache License) 
+- Programming Language - C++ 11/14 
+- ROS Version - Melodic
+- Automated Unit Testing - Travic CI
+- Code Coverage - Coveralls
 - A standard turtlebot3 pkg needs to be installed in order to run this project.
-
+- Version Control - Git & Github
 
 ### Install ROS Melodic
 
@@ -59,6 +85,94 @@ In order to Install ROS Melodic follow the following ROS.org [link](http://wiki.
 
 The instructions to install the standard turtlebot3 ROS package can be found [here](https://automaticaddison.com/how-to-launch-the-turtlebot3-simulation-with-ros/).
 
+### Documentations
+[Gazebo-Population of models](http://gazebosim.org/tutorials?tut=model_population&cat=build_world)
+
+[cv_bridge](http://wiki.ros.org/cv_bridge/Tutorials/UsingCvBridgeToConvertBetweenROSImagesAndOpenCVImages)
+
+[HSV Color Detection](https://docs.opencv.org/master/df/d9d/tutorial_py_colorspaces.html)
+
+## Installing OpenCV and Dependencies
+To install opencv follow the instructions
+```
+sudo apt-get update;
+sudo apt-get upgrade; 
+sudo apt-get install build-essential cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev; 
+sudo apt-get install python3.5-dev python3-numpy libtbb2 libtbb-dev; 
+sudo apt-get install libopencv-dev libjpeg-dev libpng-dev libtiff5-dev libjasper-dev libdc1394-22-dev libeigen3-dev libtheora-dev libvorbis-dev; 
+sudo apt-get install libxvidcore-dev libx264-dev sphinx-common libtbb-dev yasm libfaac-dev libopencore-amrnb-dev libopencore-amrwb-dev libopenexr-dev; 
+sudo apt-get install libgstreamer-plugins-base1.0-dev libavutil-dev libavfilter-dev libavresample-dev; 
+sudo apt-get install git; git clone https://github.com/opencv/opencv.git; 
+cd opencv; 
+mkdir build; 
+cd build; 
+cmake -D BUILD_TIFF=ON -D WITH_CUDA=OFF -D ENABLE_AVX=OFF -D WITH_OPENGL=OFF -D WITH_OPENCL=OFF -D WITH_IPP=OFF -D WITH_TBB=ON -D BUILD_TBB=ON -D WITH_EIGEN=OFF -D WITH_V4L=OFF -D WITH_VTK=OFF -D BUILD_TESTS=OFF -D BUILD_PERF_TESTS=OFF -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local -D OPENCV_EXTRA_MODULES_PATH= ../ ../opencv_contrib/modules ../; 
+make -j4; 
+sudo make install; 
+sudo ldconfig; 
+sudo apt-get install python-opencv
+```
+Checking OpenCV is working, follow the instructions
+```
+python
+import cv2
+print(cv2.__version__)
+
+exit()
+```
+After you get the version, exit the python command line
+
+## To create workspace follow these instructions:
+Replace the workspace name as your choice
+
+In a terminal
+```
+mkdir -p ~/<workspace>/src
+cd <workspace>
+catkin_make
+source devel/setup.bash
+```
+## To create the package follow these instructions
+```
+cd src
+git clone https://github.com/dahhmani/collection_robot
+cd ..
+catkin_make
+```
+## To Create the Rosbag file
+
+### Recording the Rosbag file
+
+Run the following commands in the terminal
+```
+cd <workspace>
+source devel/setup.bash
+roslaunch collection_robot collection.launch record:=enable
+```
+The bag file is saved as collection.bag in the results directory.
+
+### Inspecting the Rosbag file
+
+Run the following in the terminal 
+Open a terminal
+```
+cd <workspace>/src/collection_robot/results
+rosbag info collection.bag
+```
+
+### Playing the bag file
+
+Run the following commands in the terminal
+Open a terminal
+```
+roscore
+```
+In another terminal
+```
+cd <workspace>/src/collection_robot/results/
+rosbag play collection.bag
+```
+
 ### Standard dependencies
 
   - roscpp
@@ -66,6 +180,8 @@ The instructions to install the standard turtlebot3 ROS package can be found [he
   - rospy 
 
   - move_base_msgs
+
+  - openCV
 
   - gmapping slam packages
 
@@ -82,7 +198,6 @@ The instructions to install the standard turtlebot3 ROS package can be found [he
   - tf
 
 ## How to run tests
-
 ```
 cd ~/catkin_ws/
 source devel/setup.bash
@@ -92,16 +207,12 @@ catkin_make run_tests collection_robot
 
 ## Steps to run the program
 ```
-git clone --recursive https://github.com/dahhmani/collection_robot.git
-cd <path to repository>
-mkdir build
-cd build
-cmake ..
-make
-Run tests: ./test/cpp-test
-Run program: ./app/shell-app
+cd catkin_ws
+source devel/setup.bash
+roslaunch collection_robot collection.launch
 
 ```
+
 ## Cpplint check
 ```
 cd  <path to repository>

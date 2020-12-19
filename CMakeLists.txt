@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2.1)
 project(collection_robot)
 
 ## Compile as C++11, supported in ROS Melodic and newer
-add_compile_options(-std=c++11)
+add_compile_options(-std=c++17)
 
 ## Find catkin and any catkin packages
 find_package(OpenCV REQUIRED)

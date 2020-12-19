@@ -1,7 +1,10 @@
-Done processing ./include/detection.hpp
-Done processing ./include/navigation.hpp
-Done processing ./src/detection.cpp
-Done processing ./src/main.cpp
-Done processing ./src/navigation.cpp
-Done processing ./test/main.cpp
-Done processing ./test/test.cpp
+Done processing include/avoidance.hpp
+Done processing include/detection.hpp
+Done processing include/navigation.hpp
+Done processing src/avoidance.cpp
+Done processing src/detection.cpp
+Done processing src/mover.cpp
+Done processing src/navigation.cpp
+Done processing src/scanner.cpp
+Done processing test/main.cpp
+Done processing test/test.cpp

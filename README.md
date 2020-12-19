@@ -3,7 +3,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/dahhmani/collection_robot/badge.svg?branch=master)](https://coveralls.io/github/dahhmani/collection_robot?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## Overview and Description
+## Overview
 
 This project aims to solve a common problem in the sports industry, namely tidying up the sports court (that may be used for multiple sessions at the same day) and getting it back to its original state. Our objective is to automate the process of collecting all the used balls that will be scattered all over the court at the end of each practise session. We intend to implement a ball collector robot that operates inside an indoor sports court. The robot will navigate around the environment at various locations detecting objects. Then it will reach the object to pick and place the object at a specified location. We will use object detection, mapping, obstacle avoidance, and optimal path to increase the efficiency of object collection. This robot is used to search and collect objects from unknown locations and get back to the starting position.
 
@@ -11,7 +11,7 @@ This project aims to solve a common problem in the sports industry, namely tidyi
 [Class Presentation](https://youtu.be/rzorpK4S9Fg)
 
 ## Demo link
-[Demo]()
+[Demo](https://drive.google.com/file/d/1mqNnOvOPZSDfgJbIFE7mrY7AxY3ynOqw/view?usp=sharing)
 
 ### Assumptions
 The number of balls in the environment is known and given by the user, but their locations are unknown. The ball collection task will be abstracted away by simply making the ball disappear from the environment when the robot is within a preset distance away from it. There is no time limit for the navigation and the simulation will only stop when all the balls are collected. The environment is assumed to be a small area of 20 x 20 feet.
@@ -147,7 +147,7 @@ Run the following commands in the terminal
 ```
 cd <workspace>
 source devel/setup.bash
-roslaunch collection_robot collection.launch record:=enable
+roslaunch collection_robot collection.launch record:=true
 ```
 The bag file is saved as collection.bag in the results directory.
 

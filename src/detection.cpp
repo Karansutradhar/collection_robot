@@ -36,6 +36,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <tuple>
 #include "ros/ros.h"
 #include "cv_bridge/cv_bridge.h"
 #include "opencv2/opencv.hpp"
@@ -65,11 +66,15 @@ void Detection::imgConversion(const sensor_msgs::Image::ConstPtr& imgData) {
 }
 }
 
-bool Detection::detectObjs(cv::Mat objects) {
+std::tuple<bool, cv::Mat, cv::Mat> Detection::detectObjs(cv::Mat objects) {
   /// Converting image from BGR to HSV
   cv::cvtColor(objects, imgHsv, CV_BGR2HSV);
   /// Detecting hsv in the limits or not
   cv::inRange(imgHsv, lowerLimit, upperLimit, imgMask);
+  // Apply erosion on masked images
+  cv::erode(imgMask, imgMask, cv::Mat(), cv::Point(-1, -1), 2, 1, 1);
+  // Apply dilation on masked image to remove any small blobs
+  cv::dilate(imgMask, imgMask, cv::Mat(), cv::Point(-1, -1), 2, 1, 1);
   /// Modifying size of masked image using image data
   imgSize = objects.size();
   imgMask(cv::Rect(0, 0, imgSize.width, 0.8*imgSize.height)) = 0;
@@ -83,29 +88,25 @@ bool Detection::detectObjs(cv::Mat objects) {
     while (count < imgContours.size()) {
       /// Finding contours in specific area
       if (sizeContour < imgContours[count].size()) {
-         maxContourArea = count;
-         sizeContour = imgContours[count].size();
+      	maxContourArea = count;
+      	sizeContour = imgContours[count].size();
       }
       count++;
     }
     /// Setting boundary condition
     setObjLimits(cv::boundingRect(imgContours[maxContourArea]));
     /// Using cv::Rect and drawing the boundary rectangle
-    rectangle(objects, getObjLimits(), cv::Scalar(0, 255, 0), 2);
+    rectangle(objects, getObjLimits(), cv::Scalar(255, 0, 0), 2);
   }
   /// Masking the image for further usage in codes
   imgMask(cv::Rect(0, 0, 0.3*imgSize.width, imgSize.height)) = 0;
 
   if (cv::countNonZero(imgMask) == 0) {
-    setIsObjDetected(true);
+  	setIsObjDetected(true);
   } else {
-     setIsObjDetected(false);
+  	setIsObjDetected(false);
   }
-  cv::namedWindow("HSV Image View");
-  cv::namedWindow("Navigation View");
-  imshow("HSV Image View", imgHsv);
-  imshow("Navigation View", objects);
-  return getIsObjDetected();
+  return {getIsObjDetected(), imgHsv, objects};
 }
 
 cv::Mat Detection::filterImage(cv::Mat imgFiltered) {

@@ -3,14 +3,15 @@
  * @author Ajinkya Parwekar
  * @author Karan Sutradhar
  * @author Mahmoud Dahmani
- * @brief The scanner.cpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains code implement the object detection algorithm using HSV color detection
+ * @brief The scanner.cpp file for Indoor Sports Court Ball Collection Robot
+ * project. It contains code implement the object detection algorithm using HSV
+ * color detection
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
- * 
+ *
  * @section LICENSE
- *  
+ *
  * MIT License
  * Copyright (c) 2020 Ajinkya Parwekar, Karan Sutradhar, Mahmoud Dahmani
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +20,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,9 +33,8 @@
  * SOFTWARE.
  */
 
-
-#include "ros/ros.h"
 #include "detection.hpp"
+#include "ros/ros.h"
 
 /**
  * @brief main function for the project.
@@ -48,16 +48,23 @@ int main(int argc, char **argv) {
   ros::init(argc, argv, "scanner");
   /// Initializing object of class detection
   Detection detectionObj;
-
+  cv::Mat hsv, obj;
   while (ros::ok()) {
     /// Checks for if the image is empty
     if (!detectionObj.imgStorage.empty()) {
       /// detectionObj method is applied to detect colored balls in the world
-        detectionObj.detectObjs(detectionObj.filterImage(detectionObj.imgStorage));
+      auto [isdetected, imgHsv, objects] = detectionObj.detectObjs(
+          detectionObj.filterImage(detectionObj.imgStorage));
+      hsv = imgHsv;
+      obj = objects;
     }
-  ros::spinOnce();
+    ros::spinOnce();
   }
   /// Closing both the windows of HSV Image View and Navigator View
+  cv::namedWindow("HSV Image View");
+  cv::namedWindow("Navigation View");
+  imshow("HSV Image View", hsv);
+  imshow("Navigation View", obj);
   cv::destroyWindow("HSV Image View");
   cv::destroyWindow("Navigator View");
   return 0;

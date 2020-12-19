@@ -3,14 +3,14 @@
  * @author Ajinkya Parwekar
  * @author Karan Sutradhar
  * @author Mahmoud Dahmani
- * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains Collection class methods definitions.
+ * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot
+ * project. It contains Collection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
- * 
+ *
  * @section LICENSE
- *  
+ *
  * MIT License
  * Copyright (c) 2020 Ajinkya Parwekar, Karan Sutradhar, Mahmoud Dahmani
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +19,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,14 +32,14 @@
  * SOFTWARE.
  */
 
-
 #pragma once
 
 #include <iostream>
-#include "ros/ros.h"
-#include "geometry_msgs/Twist.h"
-#include "detection.hpp"
+
 #include "avoidance.hpp"
+#include "detection.hpp"
+#include "geometry_msgs/Twist.h"
+#include "ros/ros.h"
 
 class Navigation {
  private:
@@ -103,10 +103,10 @@ class Navigation {
    */
   bool resetRobotVelocity();
   /**
-  * @brief  checks if there is any modification in velocity
-  * @param  none
-  * @return true if changed, otherwise false
-  */
+   * @brief  checks if there is any modification in velocity
+   * @param  none
+   * @return true if changed, otherwise false
+   */
   bool checkChangeInVelocity();
   /**
    * @brief Destructor for the Navigation class.

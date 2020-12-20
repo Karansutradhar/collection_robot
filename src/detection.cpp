@@ -3,14 +3,14 @@
  * @author Ajinkya Parwekar
  * @author Karan Sutradhar
  * @author Mahmoud Dahmani
- * @brief The detection.cpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains Detection class methods definitions.
+ * @brief The detection.cpp file for Indoor Sports Court Ball Collection Robot
+ * project. It contains Detection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
- * 
+ *
  * @section LICENSE
- *  
+ *
  * MIT License
  * Copyright (c) 2020 Ajinkya Parwekar, Karan Sutradhar, Mahmoud Dahmani
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +19,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,22 +32,23 @@
  * SOFTWARE.
  */
 
+#include "detection.hpp"
 
 #include <iostream>
-#include <vector>
 #include <string>
 #include <tuple>
-#include "ros/ros.h"
+#include <vector>
+
 #include "cv_bridge/cv_bridge.h"
-#include "opencv2/opencv.hpp"
 #include "opencv2/highgui/highgui.hpp"
-#include "detection.hpp"
+#include "opencv2/opencv.hpp"
+#include "ros/ros.h"
 
 Detection::Detection() {
   ROS_INFO_STREAM("Here we initilize the balls detection");
   /// Subscribe to robot camera to get the data
-  colorObjSub = nh.subscribe("/camera/rgb/image_raw", 1,
-    &Detection::imgConversion, this);
+  colorObjSub =
+      nh.subscribe("/camera/rgb/image_raw", 1, &Detection::imgConversion, this);
   ROS_INFO_STREAM("Detection initilization completed");
 }
 
@@ -59,11 +60,10 @@ void Detection::imgConversion(const sensor_msgs::Image::ConstPtr& imgData) {
     imgStorage = cv_img->image;
     /// Wait for 20ms
     cv::waitKey(20);
-  }
-  catch (cv_bridge::Exception& e) {
+  } catch (cv_bridge::Exception& e) {
     ROS_ERROR_STREAM("Problem in bridging " << e.what());
     return;
-}
+  }
 }
 
 std::tuple<bool, cv::Mat, cv::Mat> Detection::detectObjs(cv::Mat objects) {
@@ -77,7 +77,7 @@ std::tuple<bool, cv::Mat, cv::Mat> Detection::detectObjs(cv::Mat objects) {
   cv::dilate(imgMask, imgMask, cv::Mat(), cv::Point(-1, -1), 2, 1, 1);
   /// Modifying size of masked image using image data
   imgSize = objects.size();
-  imgMask(cv::Rect(0, 0, imgSize.width, 0.8*imgSize.height)) = 0;
+  imgMask(cv::Rect(0, 0, imgSize.width, 0.8 * imgSize.height)) = 0;
   /// Drawing contours for better display
   cv::findContours(imgMask, imgContours, CV_RETR_LIST, CV_CHAIN_APPROX_NONE);
   /// Checking for contours in the image
@@ -88,8 +88,8 @@ std::tuple<bool, cv::Mat, cv::Mat> Detection::detectObjs(cv::Mat objects) {
     while (count < imgContours.size()) {
       /// Finding contours in specific area
       if (sizeContour < imgContours[count].size()) {
-      	maxContourArea = count;
-      	sizeContour = imgContours[count].size();
+        maxContourArea = count;
+        sizeContour = imgContours[count].size();
       }
       count++;
     }
@@ -99,12 +99,12 @@ std::tuple<bool, cv::Mat, cv::Mat> Detection::detectObjs(cv::Mat objects) {
     rectangle(objects, getObjLimits(), cv::Scalar(255, 0, 0), 2);
   }
   /// Masking the image for further usage in codes
-  imgMask(cv::Rect(0, 0, 0.3*imgSize.width, imgSize.height)) = 0;
+  imgMask(cv::Rect(0, 0, 0.3 * imgSize.width, imgSize.height)) = 0;
 
   if (cv::countNonZero(imgMask) == 0) {
-  	setIsObjDetected(true);
+    setIsObjDetected(true);
   } else {
-  	setIsObjDetected(false);
+    setIsObjDetected(false);
   }
   return {getIsObjDetected(), imgHsv, objects};
 }
@@ -117,4 +117,3 @@ cv::Mat Detection::filterImage(cv::Mat imgFiltered) {
 }
 
 Detection::~Detection() {}
-

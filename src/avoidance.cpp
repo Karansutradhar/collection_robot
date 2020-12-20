@@ -61,7 +61,7 @@ Avoidance::Avoidance(float thresholdDistance) {
   thresholdDist = thresholdDistance;
   /// Subscribing on scan topic from the laser sensor
   sensorLaser = nh.subscribe<sensor_msgs::LaserScan>(
-  	"/scan", 1000, &Avoidance::laserSensorCallback, this);
+      "/scan", 1000, &Avoidance::laserSensorCallback, this);
   ROS_INFO_STREAM("The process is complete for avoidance");
 }
 
@@ -71,9 +71,9 @@ void Avoidance::laserSensorCallback(
   /// obstacle
   for (const float& limit : sensorData->ranges) {
     if (limit <= thresholdDist) {
-    	ROS_INFO_STREAM("The distance is " << limit);
-    	setAvoidedObstacle(true);
-    	return;
+      ROS_INFO_STREAM("The distance is " << limit);
+      setAvoidedObstacle(true);
+      return;
     }
   }
   setAvoidedObstacle(false);
@@ -83,7 +83,7 @@ bool Avoidance::checkWalls() {
   /// Check if there is a wall ahead
   if (getAvoidedObstacle()) {
     ROS_WARN_STREAM("Walls ahead");
-  	return true;
+    return true;
   }
   return false;
 }

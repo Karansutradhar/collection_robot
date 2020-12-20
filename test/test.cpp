@@ -61,24 +61,6 @@ TEST(Test1, filterImageFunctionTest) {
 }
 
 /**
- * @brief This test checks if the detectObjs function works as expected
- * @param Test1 is the name of the group of tests
- * @param detectObjsFunctionTest is the specific name to check the detectObjs
- * function
- */
-
-TEST(Test1, detectObjsFunctionTest) {
-  Detection detectionObj;
-  bool objDetected;
-  if (!detectionObj.imgStorage.empty()) {
-    objDetected = detectionObj.detectObjs(
-        detectionObj.filterImage(detectionObj.imgStorage));
-  }
-  // condition where object not detected
-  EXPECT_FALSE(objDetected);
-}
-
-/**
  * @brief This test checks if the setObjLimits function works as expected
  * @param Test1 is the name of the group of tests
  * @param setObjLimitsFunctionTest is the specific name to check the
@@ -213,4 +195,25 @@ TEST(Test1, notAvoidedObstacleFunctionTest) {
   Avoidance avoidanceObj;
   avoidanceObj.setAvoidedObstacle(true);
   EXPECT_TRUE(avoidanceObj.getAvoidedObstacle());
+}
+
+TEST(Navigation, obstacleAvoidance) {
+  Avoidance avoidanceObj;
+
+  EXPECT_NO_FATAL_FAILURE(avoidanceObj.checkWalls());
+}
+
+
+TEST(Detection, detectObjs) {
+  Detection detector;
+
+  cv::Mat img(500, 1000, CV_8UC3, cv::Scalar(0,255, 0));
+  EXPECT_NO_FATAL_FAILURE(detector.detectObjs(img));
+}
+
+TEST(Detection, filterImage) {
+  Detection detector;
+
+  cv::Mat img(500, 1000, CV_8UC3, cv::Scalar(0,255, 0));
+  EXPECT_NO_FATAL_FAILURE(detector.filterImage(img));
 }

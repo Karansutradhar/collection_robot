@@ -3,14 +3,14 @@
  * @author Ajinkya Parwekar
  * @author Karan Sutradhar
  * @author Mahmoud Dahmani
- * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot project.
- * It contains Collection class methods definitions.
+ * @brief The navigation.hpp file for Indoor Sports Court Ball Collection Robot
+ * project. It contains Collection class methods definitions.
  * @Copyright "Copyright 2020" <Ajinkya Parwekar>
  * @Copyright "Copyright 2020" <Karan Sutradhar>
  * @Copyright "Copyright 2020" <Mahmoud Dahmani>
- * 
+ *
  * @section LICENSE
- *  
+ *
  * MIT License
  * Copyright (c) 2020 Ajinkya Parwekar, Karan Sutradhar, Mahmoud Dahmani
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,10 +19,10 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * 
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -32,31 +32,25 @@
  * SOFTWARE.
  */
 
-
 #pragma once
 
 #include <iostream>
-#include "ros/ros.h"
-#include "sensor_msgs/LaserScan.h"
-#include "geometry_msgs/Twist.h"
+
+#include "avoidance.hpp"
 #include "detection.hpp"
+#include "geometry_msgs/Twist.h"
+#include "ros/ros.h"
 
 class Navigation {
  private:
   // Communication with the ROS system
   ros::NodeHandle nh;
 
-  // Subscribe to laser scan topic
-  ros::Subscriber sensorLaser;
-
   // Inilalize variable to store if object is detected
   ros::Publisher velocity;
 
   // msg variable that handles robot speeds
-  geometry_msgs::Twist velocitymsg;
-
-  // Defining minimun distance from the wall to avoid collision
-  float thresholdDist;
+  geometry_msgs::Twist move;
 
   // Defining linear velocity in x direction
   float xVelLin;
@@ -68,11 +62,9 @@ class Navigation {
   float prevVelLin, prevVelAng;
 
   // Defining publishing rate
-  const int pubRate = 200;
+  const int pubRate = 450;
 
  public:
-  // obstacle variable that defines presence of obstacles
-  bool obstacles;
   /**
    * @brief Base Constructor for the Navigation class.
    * @param None.
@@ -103,7 +95,7 @@ class Navigation {
    * @param   none
    * @return  none
    */
-  void robotMovement();
+  void robotMovement(Avoidance& avoidanceObj);
   /**
    * @brief   reset velocity of the robot
    * @param   none
@@ -111,35 +103,11 @@ class Navigation {
    */
   bool resetRobotVelocity();
   /**
-  * @brief  checks if there is any modification in velocity
-  * @param  none
-  * @return true if changed, otherwise false
-  */
+   * @brief  checks if there is any modification in velocity
+   * @param  none
+   * @return true if changed, otherwise false
+   */
   bool checkChangeInVelocity();
-  /**
-   * @brief sensor callback to subscribe the laser sensor callback topic
-   * @param sensor_msgs::ScanLaser
-   * @return None.
-   */
-  void laserSensorCallback(const sensor_msgs::LaserScan::ConstPtr& sensorData);
-  /**
-   * @brief Function to explore the world environment and set speed for the robot without collision
-   * @param None.
-   * @return geometry_msgs , to move robot without collision
-   */
-  geometry_msgs::Twist explore();
-  /**
-  * @brief  function to avoid walls
-  * @param  Threshold distance from the walls
-  * @return none
-  */
-  void avoidObstacle(float thresholdDist);
-  /**
-   * @brief   Checks the walls are present within threshold distance
-   * @param   none
-   * @return  TRue if found, otherwise false
-   */
-  bool checkWalls();
   /**
    * @brief Destructor for the Navigation class.
    * @param None.

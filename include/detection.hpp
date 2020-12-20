@@ -38,6 +38,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <tuple>
 #include "ros/ros.h"
 #include "cv_bridge/cv_bridge.h"
 #include "opencv2/opencv.hpp"
@@ -59,8 +60,8 @@ class Detection {
   // identifying the colored objects limiting points
   cv::Rect colorObjlimits;
   // setting upper and lower limit of color
-  const cv::Scalar lowerLimit = {};
-  const cv::Scalar upperLimit = {};
+  const cv::Scalar lowerLimit = {0, 15, 0};
+  const cv::Scalar upperLimit = {0, 255, 255};
   // defining image size
   cv::Size imgSize;
   // image contours
@@ -88,7 +89,7 @@ class Detection {
    * @param gaussian filterd image
    * @return true if color is detected, otherwise false
    */
-  bool detectObjs(cv::Mat objects);
+  std::tuple<bool, cv::Mat, cv::Mat> detectObjs(cv::Mat objects);
   /**
    * @brief Function to modify gaussian filter on the image
    * @param changed open cv image
